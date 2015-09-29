@@ -15,6 +15,13 @@ class BookAdapter
   end
 
   def show_book(id)
+    puts "Show book id: #{id}"
+    if !books.include?(id)
+      puts "#{id} isn't exist"
+    else
+      connection = @book_proxy.connect
+      puts connection.show(id)
+    end
     # You can look at the code in book_store_connection.rb
     # Here is some requirements
     #  - if book isn't exist, show the error
@@ -40,9 +47,9 @@ end
 
 puts 'Start'
 
-book_adapter = BookAdapter.new
+book_adapter = BookAdapter.new(2)
 p 'Book ids: ', book_adapter.books
-
+book_adapter.show_book(1)
 #p 'Book ids: ', book_adapter.books
 #p 'Book ids: ', book_adapter.books
 #p 'Book ids: ', book_adapter.books
