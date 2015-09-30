@@ -10,8 +10,8 @@ class BookAdapter
   def books
     return books_list if loaded_books_list? && up_to_date?
 
-    book_store_connection = @book_proxy.connect
-    books_list.concat book_store_connection.books
+    @book_store_connection = @book_proxy.connect
+    books_list.concat @book_store_connection.books
   end
 
   def show_book(id)
@@ -19,8 +19,13 @@ class BookAdapter
     if !books.include?(id)
       puts "#{id} isn't exist"
     else
-      connection = @book_proxy.connect
-      puts connection.show(id)
+      if @book_store_connection.nil?
+        connection = @book_proxy.connect
+        puts connection.show(id)
+      else
+        puts "Connected..."
+        puts @book_store_connection.show(id)
+      end
     end
     # You can look at the code in book_store_connection.rb
     # Here is some requirements
